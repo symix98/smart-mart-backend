@@ -1,5 +1,5 @@
 // import controllers review, products
-const productController = require('../components/user/ProductController');
+const productController = require('../../components/product/ProductController');
 
 
 // router

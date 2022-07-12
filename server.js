@@ -230,11 +230,11 @@ app.use(express.urlencoded({ extended: true }))
 
 
 // users router
-const userRouter = require('./routes/userRouter')
+const userRouter = require('./db/routes/userRouter')
 app.use('/api/users', userRouter)
 
 //products router
-const productsRouter = require('./routes/productRouter')
+const productsRouter = require('./db/routes/productRouter')
 app.use('/api/products', productsRouter)
 
 //static Images Folder

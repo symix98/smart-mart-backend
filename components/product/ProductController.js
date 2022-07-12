@@ -1,4 +1,4 @@
-const db = require('../../models/index')
+const db = require('../../db/models/index')
 const Product = db.products
 const {
 	successResponse,
