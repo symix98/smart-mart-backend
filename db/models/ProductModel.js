@@ -3,18 +3,18 @@ module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define(
     "product",
     {
-      id: {
+      pid: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         autoIncrement: true,
       },
-      name: DataTypes.TEXT,
-      description: DataTypes.TEXT,
-      price: DataTypes.INTEGER,
-      countinstock: DataTypes.INTEGER,
+      pdesc: DataTypes.TEXT,
+      catid: DataTypes.INTEGER,
+      pprice: DataTypes.INTEGER,
       imageurl: DataTypes.TEXT,
+      pshow: DataTypes.TEXT,
     },
     {
       paranoid: true,

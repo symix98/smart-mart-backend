@@ -11,11 +11,10 @@ async getAllProduct(req, res, next){
 		try {
 			const response = await Product.findAll({
 				attributes:[
-					'name',
-					'description',
-					'price',
-					'countinstock',
-					'imageurl'
+					'pdesc',
+					'pprice',
+					'imageurl',
+					'pshow',
 				],
 			});
 			res.status(200).send(response);
@@ -36,6 +35,28 @@ async getSingleProductById(req, res, next){
 					id
 				}
             });
+			res.status(200).send(response);
+			// successResponse(res, response);
+			// next();
+		} catch (error) {
+			console.log(error.message);
+			errorResponse(res, 'Could not perform operation!', 400) && next(error);
+		}
+},
+
+// This Method Creates a new Product
+async createNewProduct(req, res, next){
+		try {
+			const { pdesc } = req.params;
+			const { pprice } = req.params;
+			const { imageurl } = req.params;
+			const { pshow } = req.params;
+			await Product.create({
+				pdesc,
+				pprice,
+				imageurl,
+				pshow
+			})
 			res.status(200).send(response);
 			// successResponse(res, response);
 			// next();
