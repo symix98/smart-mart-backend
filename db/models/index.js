@@ -26,6 +26,7 @@ db.sequelize = sequelize
 
 db.users = require('./UserModel.js')(sequelize, DataTypes)
 db.products = require('./ProductModel')(sequelize, DataTypes)
+db.categories = require('./ProductModel')(sequelize, DataTypes)
 
 db.sequelize.sync({ force: false })
 .then(() => {

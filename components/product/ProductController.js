@@ -47,19 +47,19 @@ async getSingleProductById(req, res, next){
 // This Method Creates a new Product
 async createNewProduct(req, res, next){
 		try {
-			const { pdesc } = req.params;
-			const { pprice } = req.params;
-			const { imageurl } = req.params;
-			const { pshow } = req.params;
+			const { description } = req.body;
+			const { price } = req.body;
+			const { imageurl } = req.body;
+			const { ShowHide } = req.body;
+			console.log(req.body)
 			await Product.create({
-				pdesc,
-				pprice,
+				pdesc: description,
+				pprice: price,
 				imageurl,
-				pshow
+				pshow: ShowHide,
 			})
-			res.status(200).send(response);
-			// successResponse(res, response);
-			// next();
+			successResponse(res, true, "Product Inserted Successfully!");
+			next();
 		} catch (error) {
 			console.log(error.message);
 			errorResponse(res, 'Could not perform operation!', 400) && next(error);
