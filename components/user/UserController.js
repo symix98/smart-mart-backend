@@ -11,9 +11,7 @@ async getAllUsers(req, res, next){
 		try {
 			const response = await User.findAll({
         attributes: [
-          'email',
-          'password',
-          'role',
+          'username',
         ],
       });
       res.status(200).send(response);
@@ -44,28 +42,22 @@ async getSingleUserById(req, res, next){
 		}
 },
 
-async registerNewUser(req, res, next){
+async login(req, res, next){
   try{
-    const { email } = req.body;
+    const { username } = req.body;
     const { password } = req.body;
-    const { role } = req.body;
-    console.log("REQ>BODY",req.body);
-    console.log(email);
-    console.log(password);
-    console.log(role);
-    let insertedPassword = password;
-    const salt = await bcrypt.genSalt(10);
-
-    await bcrypt.hash(password , salt).then(hashedPassword => {
-        if(hashedPassword) {
-          console.log('hashed password' , hashedPassword);
-          insertedPassword = hashedPassword;
-        }
+    const response = await User.findOne({
+      where:{
+        username,
+      }
     });
-
-    await User.create({username: email, password: insertedPassword, level: role});
-    successResponse(res, true, "User Inserted Successfully!");
+    if(response){
+      if(response.password == password){
+      successResponse(res, response.level, "User Logged In Successfully!");
 			next();
+      }
+    }
+    res.status(404).send(response);
   }
   catch(error){
     console.log(error);
