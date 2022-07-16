@@ -63,4 +63,30 @@ async login(req, res, next){
     console.log(error);
   }
 },
+async editUser(req, res, next){
+  try {
+    const { username, password, level } = req.body;
+    console.log(username,password,level)
+    const response = await User.update(
+      {
+      password,
+      level,
+      },
+      {
+        where:{
+          username
+        }
+      }
+    );
+    if(response){
+      successResponse(res, response, "User Logged In Successfully!");
+			next();
+    }
+    else{
+      errorResponse(res, 'Could not perform operation!', 400) && next(error);
+    }
+  } catch (error) {
+    errorResponse(res, 'Something went wrong, please try again!', 400) && next(error);
+  }
+}
 };
