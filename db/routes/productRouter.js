@@ -8,5 +8,5 @@ const router = require('express').Router()
 router.get('/product', productController.getAllProduct);
 router.get('/product/:id', productController.getSingleProductById);
 router.post('/product/create', productController.createNewProduct);
-
+router.put('/product/update/:pid', productController.updateProduct);
 module.exports = router

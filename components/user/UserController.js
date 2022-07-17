@@ -24,12 +24,13 @@ async getAllUsers(req, res, next){
 		}
 },
 
-async getSingleUserById(req, res, next){
+async getSingleUserByUsername(req, res, next){
 		try {
-      const { id } = req.params;
+      const { username } = req.params;
+      console.log(username)
 			const response = await User.findOne({
         where: {
-          id,
+          username,
         }
       });
       res.status(200).send(response);
@@ -87,6 +88,19 @@ async editUser(req, res, next){
     }
   } catch (error) {
     errorResponse(res, 'Something went wrong, please try again!', 400) && next(error);
+  }
+},
+async createNewUser(req, res, next){
+  try{
+    const { username } = req.body;
+    const { password } = req.body;
+    const { level } = req.body;
+    await User.create({username, password, level});
+    successResponse(res, true, "User Inserted Successfully!");
+		next();
+  }
+  catch(error){
+    console.log(error);
   }
 }
 };

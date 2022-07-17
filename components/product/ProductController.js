@@ -11,6 +11,7 @@ async getAllProduct(req, res, next){
 		try {
 			const response = await Product.findAll({
 				attributes:[
+					'pid',
 					'pdesc',
 					'pprice',
 					'imageurl',
@@ -30,11 +31,13 @@ async getAllProduct(req, res, next){
 async getSingleProductById(req, res, next){
 		try {
 			const { id } = req.params;
+			console.log("IDS: ",id)
 			const response = await Product.findOne({
                 where: {
-					id
+					pid: id,
 				}
             });
+			if(response){console.log("THIS IS RESPONSE: ",response);}
 			res.status(200).send(response);
 			// successResponse(res, response);
 			// next();
@@ -59,6 +62,37 @@ async createNewProduct(req, res, next){
 				pshow: ShowHide,
 			})
 			successResponse(res, true, "Product Inserted Successfully!");
+			next();
+		} catch (error) {
+			console.log(error.message);
+			errorResponse(res, 'Could not perform operation!', 400) && next(error);
+		}
+},
+// This Method Updates a Single Product
+async updateProduct(req, res, next){
+		try {
+			console.log("REQ>BODY",req.body);
+			console.log("REQ>PARAMS",req.params);
+			const { description } = req.body;
+			const { price } = req.body;
+			const { imageurl } = req.body;
+			const { ShowHide } = req.body;
+			const { pid } = req.params;
+			await Product.update({
+				
+				pdesc: description,
+				pprice: price,
+				imageurl,
+				pshow: ShowHide,
+			}
+				,
+				{
+					where:{
+						pid
+					}
+				}
+			);
+			successResponse(res, true, "Product Updated Successfully!");
 			next();
 		} catch (error) {
 			console.log(error.message);
