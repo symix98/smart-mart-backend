@@ -4,6 +4,7 @@ const {
 	successResponse,
 	errorResponse,
 } = require('../../responseService');
+const { Op } = require('sequelize');
 module.exports = {
 
 // This Method Gets All Products	
@@ -99,4 +100,23 @@ async updateProduct(req, res, next){
 			errorResponse(res, 'Could not perform operation!', 400) && next(error);
 		}
 },
+async searchProductResult(req, res, next) {
+		try {
+			const { search } = req.body;
+			const products = await Product.findAll({
+			where:{
+							pdesc:{
+								[Op.like]: `%${search}%`
+							},
+			},
+			})
+			successResponse(res, products);
+			// res.json(appointments);
+			next();
+		} catch (error) {
+			console.log(error.message);
+			// res.sendStatus(500) && next(error)
+			errorResponse(res, 'Could not perform operation!', 400) && next(error);
+		}
+	},
 };
