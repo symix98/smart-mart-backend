@@ -105,9 +105,18 @@ async searchProductResult(req, res, next) {
 			const { search } = req.body;
 			const products = await Product.findAll({
 			where:{
+				[Op.or]: [
+					{
 							pdesc:{
 								[Op.like]: `%${search}%`
 							},
+						},
+						{
+							pid:{
+								[Op.like]: `%${search}%`
+							}
+						}
+						]
 			},
 			})
 			successResponse(res, products);
